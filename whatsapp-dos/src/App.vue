@@ -1,30 +1,40 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="h-screen w-screen bg-[#111b21] flex">
+
+    <!-- Sidebar -->
+    <ChatSidebar
+      :selectedChat="selectedChat"
+      @selectChat="selectChat"
+      class="hidden md:flex"
+    />
+
+    <!-- Chat Window -->
+    <ChatWindow
+      v-if="selectedChat"
+      :chat="selectedChat"
+      @back="selectedChat = null"
+      class="flex-1"
+    />
+
+    <!-- Placeholder si no hay chat seleccionado -->
+    <div
+      v-else
+      class="flex-1 hidden md:flex items-center justify-center bg-[#222e35] text-gray-400 text-xl"
+    >
+      Selecciona un chat
+    </div>
+
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<script setup>
+import { ref } from "vue"
+import ChatSidebar from "./components/chat/ChatSidebar.vue"
+import ChatWindow from "./components/chat/ChatWindow.vue"
+
+const selectedChat = ref(null)
+
+const selectChat = (chat) => {
+  selectedChat.value = chat
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+</script>
