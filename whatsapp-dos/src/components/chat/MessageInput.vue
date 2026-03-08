@@ -5,7 +5,9 @@
       type="text"
       placeholder="Escribe un mensaje"
       class="flex-1 p-3 rounded-lg bg-[#2a3942] text-white outline-none"
+      @keyup.enter="send"
     />
+
     <button
       class="bg-[#00a884] px-4 py-2 rounded-lg text-white font-semibold hover:opacity-80 transition"
       @click="send"
@@ -18,10 +20,16 @@
 <script setup>
 import { ref } from "vue"
 
+const emit = defineEmits(["send"])
+
 const text = ref("")
 
 const send = () => {
-  if (!text.value) return
+
+  if(!text.value.trim()) return
+
+  emit("send", text.value)
+
   text.value = ""
 }
 </script>
