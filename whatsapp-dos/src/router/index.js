@@ -5,25 +5,45 @@ import RegisterView from "../views/RegisterView.vue"
 import ChatView from "../views/ChatView.vue"
 
 const routes = [
+
   {
     path: "/",
-    name: "login",
+    redirect: "/login"
+  },
+
+  {
+    path: "/login",
     component: LoginView
   },
+
   {
     path: "/register",
-    name: "register",
     component: RegisterView
   },
+
   {
     path: "/chat",
-    component: ChatView
+    component: ChatView,
+    meta: { requiresAuth: true }
   }
+
 ]
 
 const router = createRouter({
   history: createWebHistory(),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+
+  const user = localStorage.getItem("user_id")
+
+  if (to.meta.requiresAuth && !user) {
+    next("/login")
+  } else {
+    next()
+  }
+
 })
 
 export default router

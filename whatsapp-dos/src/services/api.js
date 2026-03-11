@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const api = axios.create({
-  baseURL: "http://localhost/backend/backend",
+  baseURL: "https://matroxmata.com/chat/backend",
   headers:{
     "Content-Type":"application/json"
   },
